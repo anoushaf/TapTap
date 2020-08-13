@@ -1,0 +1,80 @@
+# README
+
+## Files:
+
+**Place in /Scripts**
+Database.cs
+Song.cs
+Songs.cs
+database
+
+**Place in /Plugins**
+Mono.Data.Sqlite
+
+## Setup Instructions
+
+1. Move all files to the folders listed above
+2. In the first scene that runs for your game, create a sprite or any object and attach the `Database.cs` script to the component.
+    * This will load up the database.
+    * You should see a Debug Log message with a file path. This is the file where the database file will be stored on your computer.
+    * **NOTE**: if you want to reset the database, you will need to delete this file.
+
+## Accessing Data
+### Note
+* diff_id: pass in 1 for easy, 2 for hard
+
+### General Use Case Example
+```
+// Create a Songs object
+Songs S = new Songs();
+
+// Retrieve all songs from the database
+List<Song> songs = S.GetSongs();
+
+// Loop through all the songs
+foreach (Song s in songs)
+{
+    Debug.Log("Song Name: " + s.GetName());
+}
+
+// Get the first song in the list
+Song song = songs[0];
+
+// Get the top ten scores for easy mode
+List<Rank> ten = s.GetTen(1);
+foreach (Rank r in ten)
+{
+    Debug.log("Rank " + r.rank + ": " + r.name + ", " + r.score);
+}
+```
+
+### Songs Object
+* Constructor
+eg: `Songs S = new Songs();`
+* Methods
+    * `GetSongs()`: get all songs stored on the database. Returns a list of Song objects (look below for Song Object)
+eg: `List<Song> songs = S.GetSongs();`
+
+### Song Object
+* Constructor: pass in the song_id to retrieve a song from a database.
+eg: `Song s = new Song(song_id);`
+* Methods
+    * `GetSong()`: returns the path where the song file is stored
+    * `GetLength()`: returns length of the song
+    * `GetName()`: returns the name of the song
+    * `GetID()`: returns ID of the song
+    * `GetTen(int diff_id)`: returns a list of Rank objects (see below for Rank Object)
+    * `InTop(int score, int diff_id)`: returns True if the score is high enough to make it to the top ten, returns False if not 
+    * `AddTop(int score, string name, int diff_id)`: adds a person to the top ten rankings.
+    * `GetRhythm(int diff_id)`: returns a list of Beat objects (see below for Beat object)
+
+### Rank Object
+* Attributes
+    * `score`
+    * `name`
+    * `rank`
+
+### Beat Object
+* Attributes
+    * `hit_time`
+    * `length`
